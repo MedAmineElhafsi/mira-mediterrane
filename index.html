@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mira Mediterrane Küche – Merseburg</title>
+  <meta name="description"
+    content="Mira Mediterrane Küche – Authentische mediterrane und syrisch-arabische Spezialitäten im Herzen von Merseburg. Frische Zutaten, traditionelle Rezepte. Jetzt reservieren!" />
+  <meta name="keywords"
+    content="Mediterran Restaurant Merseburg, Syrisches Restaurant Merseburg, Shawarma, Falafel, Merseburg Essen" />
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            terracotta: { DEFAULT: '#C0622F', light: '#D97B47', dark: '#9A4A22' },
+            olive: { DEFAULT: '#6B7C3A', light: '#8A9E4A', dark: '#4F5D28' },
+            sand: { DEFAULT: '#F5EDD8', light: '#FAF5EC', dark: '#E8D9B8' },
+            charcoal: '#2C2C2C',
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.7s ease-out forwards',
+            'fade-in': 'fadeIn 1s ease-out forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Alpine.js for interactivity -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Vanilla-Tilt.js for 3D interactions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" defer></script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .hero-bg {
+      background-image: linear-gradient(to bottom, rgba(30, 20, 10, 0.55) 0%, rgba(30, 20, 10, 0.35) 60%, rgba(30, 20, 10, 0.72) 100%), url('images/hero.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: scroll;
+    }
+
+    @media (min-width: 768px) {
+      .hero-bg {
+        background-attachment: fixed;
+      }
+    }
+
+    .dish-card:hover .dish-overlay {
+      opacity: 1;
+    }
+
+    .dish-card:hover img {
+      transform: scale(1.07);
+    }
+
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #C0622F;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .menu-tab.active {
+      background-color: #C0622F;
+      color: white;
+    }
+
+    /* 3D Dynamic Effects */
+    .js-tilt-glare {
+      border-radius: 1rem;
+    }
+
+    .dish-card,
+    .tilt-card {
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+    }
+
+    .dish-card img {
+      transform: translateZ(30px) scale(1.05);
+      /* Enhance scale to prevent border clipping during tilt */
+      transition: transform 0.5s ease;
+    }
+
+    .dish-card:hover img {
+      transform: translateZ(50px) scale(1.08);
+    }
+
+    .dish-card .dish-overlay {
+      transform: translateZ(40px);
+    }
+
+    .dish-card .p-5 {
+      transform: translateZ(30px);
+    }
+
+    .tilt-element {
+      transform: translateZ(50px);
+    }
+
+    /* Intersection Observer fade-in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #F5EDD8;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #C0622F;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body class="bg-sand font-sans text-charcoal antialiased">
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+    x-data="{ scrolled: false, open: false }"
+    x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 50 })"
+    :class="scrolled ? 'bg-white shadow-lg py-2' : 'bg-transparent py-4'">
+    <nav class="max-w-6xl mx-auto px-4 flex items-center justify-between">
+
+      <!-- Logo -->
+      <a href="#hero" class="flex items-center gap-2 group">
+        <span class="text-terracotta text-3xl">🫒</span>
+        <div :class="scrolled ? 'text-charcoal' : 'text-white'">
+          <div class="font-serif font-bold text-lg leading-tight">Mira</div>
+          <div class="text-xs font-light tracking-widest uppercase opacity-80">Mediterrane Küche</div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <ul class="hidden md:flex items-center gap-7 text-sm font-medium"
+        :class="scrolled ? 'text-charcoal' : 'text-white'">
+        <li><a href="#about" class="nav-link hover:text-terracotta transition-colors">Über uns</a></li>
+        <li><a href="#dishes" class="nav-link hover:text-terracotta transition-colors">Gerichte</a></li>
+        <li><a href="#menu" class="nav-link hover:text-terracotta transition-colors">Speisekarte</a></li>
+        <li><a href="#contact" class="nav-link hover:text-terracotta transition-colors">Kontakt</a></li>
+        <li>
+          <a href="http://localhost:3000"
+            class="bg-terracotta text-white px-5 py-2 rounded-full font-semibold hover:bg-terracotta-dark transition-colors shadow-sm">
+            🛍️ Online bestellen
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile Burger -->
+      <button @click="open = !open" class="md:hidden p-2 rounded-lg" :class="scrolled ? 'text-charcoal' : 'text-white'">
+        <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div x-show="open" x-transition class="md:hidden bg-white shadow-xl border-t border-sand-dark">
+      <ul class="flex flex-col py-4 px-6 gap-4 text-charcoal font-medium">
+        <li><a href="#about" @click="open=false" class="block py-1 hover:text-terracotta transition-colors">Über uns</a>
+        </li>
+        <li><a href="#dishes" @click="open=false"
+            class="block py-1 hover:text-terracotta transition-colors">Gerichte</a></li>
+        <li><a href="#menu" @click="open=false"
+            class="block py-1 hover:text-terracotta transition-colors">Speisekarte</a></li>
+        <li><a href="#contact" @click="open=false"
+            class="block py-1 hover:text-terracotta transition-colors">Kontakt</a></li>
+        <li>
+          <a href="tel:+491636473331"
+            class="block bg-terracotta text-white text-center px-5 py-3 rounded-full font-semibold">
+            📞 Jetzt anrufen
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero" class="hero-bg min-h-screen flex flex-col items-center justify-center text-center px-4 relative">
+    <div class="max-w-3xl mx-auto tilt-card" data-tilt data-tilt-max="4" data-tilt-speed="500"
+      data-tilt-perspective="1000">
+      <!-- Badge -->
+      <div
+        class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/30 text-white text-xs font-medium px-4 py-1.5 rounded-full mb-6 animate-fade-in tilt-element">
+        <span class="w-2 h-2 bg-terracotta-light rounded-full inline-block animate-pulse"></span>
+        Mediterrane & Syrisch-Arabische Küche · Merseburg
+      </div>
+
+      <h1
+        class="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 animate-fade-in-up">
+        Mira<br /><span class="text-terracotta-light italic">Mediterrane Küche</span>
+      </h1>
+
+      <p class="text-xl text-white/90 font-light mb-3 animate-fade-in-up">
+        Mediterrane Spezialitäten im Herzen von Merseburg
+      </p>
+      <p class="text-white/70 text-base max-w-xl mx-auto mb-10 animate-fade-in-up">
+        Frische Zutaten, traditionelle Rezepte und die herzliche Atmosphäre des Mittelmeerraums –
+        erleben Sie die Aromen der Levante direkt in Merseburg.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up tilt-element">
+        <a href="tel:+491636473331" id="cta-call"
+          class="flex items-center justify-center gap-2 bg-terracotta hover:bg-terracotta-dark text-white font-semibold px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-[0_20px_40px_rgba(192,98,47,0.4)] hover:-translate-y-1 hover:scale-105">
+          📞 Jetzt anrufen
+        </a>
+        <a href="http://localhost:3000" id="cta-order"
+          class="flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur-sm border-2 border-white text-white font-semibold px-8 py-4 rounded-full text-lg transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-[0_20px_40px_rgba(255,255,255,0.15)]">
+          🛍️ Online bestellen
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ==================== ABOUT ==================== -->
+  <section id="about" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        <!-- Image side -->
+        <div class="reveal relative tilt-card" data-tilt data-tilt-max="5" data-tilt-speed="600"
+          data-tilt-perspective="1000">
+          <div class="rounded-2xl overflow-hidden shadow-2xl aspect-[4/3]">
+            <img src="images/about.jpg" alt="Gemütliche Atmosphäre im Mira Restaurant"
+              class="w-full h-full object-cover tilt-element" loading="lazy" />
+          </div>
+          <!-- Floating badge -->
+          <div
+            class="absolute -bottom-5 -right-5 bg-terracotta text-white rounded-2xl px-6 py-4 shadow-xl text-center hidden sm:block tilt-element">
+            <div class="font-serif text-3xl font-bold">10+</div>
+            <div class="text-xs font-medium opacity-90 uppercase tracking-wider mt-0.5">Jahre Erfahrung</div>
+          </div>
+          <!-- Olive leaf decoration -->
+          <div
+            class="absolute -top-4 -left-4 bg-olive text-white rounded-xl px-4 py-3 shadow-lg hidden sm:flex items-center gap-2 tilt-element">
+            <span class="text-xl">🫒</span>
+            <span class="text-xs font-semibold tracking-wide">Frisch &amp; Authentisch</span>
+          </div>
+        </div>
+
+        <!-- Text side -->
+        <div class="reveal">
+          <span class="text-terracotta text-sm font-semibold uppercase tracking-widest">Unsere Geschichte</span>
+          <h2 class="font-serif text-4xl lg:text-5xl font-bold text-charcoal mt-3 mb-6 leading-tight">
+            Der Geschmack des<br /><span class="text-terracotta italic">Mittelmeers</span>
+          </h2>
+          <p class="text-gray-600 text-lg leading-relaxed mb-5">
+            Im Mira Mediterrane Küche verbinden wir die reiche Küchentradition der Levante mit der
+            Herzlichkeit persönlicher Gastfreundschaft. Jedes Gericht erzählt eine Geschichte –
+            von sonnengereiften Zutaten, handverlesenen Gewürzen und Rezepten, die über Generationen
+            weitergegeben wurden.
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-8">
+            Von knusprigen Falafeln und zartem Shawarma über gefüllte Weinblätter bis hin zu
+            langsam geschmortem Lamm – wir servieren mediterrane und syrisch-arabische Spezialitäten
+            mit echter Leidenschaft und frischesten Zutaten.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex items-center gap-3 bg-sand rounded-xl p-4">
+              <span class="text-2xl">🌿</span>
+              <div>
+                <div class="font-semibold text-sm text-charcoal">Frische Zutaten</div>
+                <div class="text-xs text-gray-500">Täglich frisch zubereitet</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-sand rounded-xl p-4">
+              <span class="text-2xl">🏺</span>
+              <div>
+                <div class="font-semibold text-sm text-charcoal">Traditionell</div>
+                <div class="text-xs text-gray-500">Authentische Rezepte</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-sand rounded-xl p-4">
+              <span class="text-2xl">🥗</span>
+              <div>
+                <div class="font-semibold text-sm text-charcoal">Vegetarisch</div>
+                <div class="text-xs text-gray-500">Viele Optionen</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-sand rounded-xl p-4">
+              <span class="text-2xl">❤️</span>
+              <div>
+                <div class="font-semibold text-sm text-charcoal">Mit Herz</div>
+                <div class="text-xs text-gray-500">Familiär &amp; herzlich</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Videos -->
+      <div class="mt-16 reveal">
+        <div class="text-center mb-8">
+          <span class="text-terracotta text-sm font-semibold uppercase tracking-widest">Einblicke</span>
+          <h3 class="font-serif text-3xl font-bold text-charcoal mt-2">Erleben Sie uns</h3>
+          <p class="text-gray-500 mt-2 max-w-lg mx-auto">Ein Blick hinter die Kulissen – unsere Küche, unsere
+            Leidenschaft.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+
+          <!-- Video 1 -->
+          <div class="rounded-2xl overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.3)] bg-black group tilt-card"
+            data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
+            <video class="w-full aspect-video object-contain tilt-element" controls muted preload="metadata" poster="">
+              <source src="images/restaurant_video1.mp4" type="video/mp4" />
+              Ihr Browser unterstützt kein Video.
+            </video>
+          </div>
+
+          <!-- Video 2 -->
+          <div class="rounded-2xl overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.3)] bg-black group tilt-card"
+            data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2">
+            <video class="w-full aspect-video object-contain tilt-element" controls muted preload="metadata" poster="">
+              <source src="images/restaurant_video2.mp4" type="video/mp4" />
+              Ihr Browser unterstützt kein Video.
+            </video>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==================== POPULAR DISHES ==================== -->
+  <section id="dishes" class="py-20 lg:py-28 bg-sand">
+    <div class="max-w-6xl mx-auto px-4">
+
+      <div class="text-center mb-14 reveal">
+        <span class="text-terracotta text-sm font-semibold uppercase tracking-widest">Unsere Highlights</span>
+        <h2 class="font-serif text-4xl lg:text-5xl font-bold text-charcoal mt-3 mb-4">
+          Beliebte Gerichte
+        </h2>
+        <p class="text-gray-500 max-w-xl mx-auto">
+          Von der Levante direkt auf Ihren Tisch – entdecken Sie unsere meistgeliebten Spezialitäten.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Kaufmanntaschen -->
+        <div data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2"
+          class="dish-card reveal bg-white rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition-all duration-400 group cursor-pointer">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/kaufmanntaschen.jpg" alt="Kaufmanntaschen"
+              class="w-full h-full object-cover transition-transform duration-500" />
+            <div
+              class="dish-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-medium">Knusprige Spezialität</span>
+            </div>
+            <div class="absolute top-3 right-3 bg-terracotta text-white text-xs px-2 py-1 rounded-full font-semibold">⭐
+              Beliebt</div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-xl font-bold text-charcoal mb-2">Kaufmanntaschen</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Knusprig frittierte Teigtaschen mit herzhafter Füllung,
+              serviert mit Pommes und Joghurtdip.</p>
+          </div>
+        </div>
+
+        <!-- Kadeh -->
+        <div data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2"
+          class="dish-card reveal bg-white rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition-all duration-400 group cursor-pointer">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/mira_shawarma_teller.jpg" alt="Kadeh"
+              class="w-full h-full object-cover transition-transform duration-500" />
+            <div
+              class="dish-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-medium">Mira Hausgerichte</span>
+            </div>
+            <div class="absolute top-3 right-3 bg-olive text-white text-xs px-2 py-1 rounded-full font-semibold">🍽️
+              Spezialität</div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-xl font-bold text-charcoal mb-2">Kadeh</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Wrap mit Hähnchen, Tum und gebratenem Gemüse, serviert mit
+              Pommes, Reis oder Savar und Krautsalat.</p>
+          </div>
+        </div>
+
+        <!--Mira Shawarma Teller -->
+        <div data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2"
+          class="dish-card reveal bg-white rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition-all duration-400 group cursor-pointer">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/kadeh.jpg" alt="Mira Shawarma Teller"
+              class="w-full h-full object-cover transition-transform duration-500" />
+            <div
+              class="dish-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-medium">Hausgemacht täglich</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-xl font-bold text-charcoal mb-2">Mira Shawarma Teller</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">4 frittierte Teigtaschen mit Kalbshackfleisch, Zwiebel und
+              Petersilienfüllung, serviert mit Pommes.</p>
+          </div>
+        </div>
+
+        <!-- Crispy -->
+        <div data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2"
+          class="dish-card reveal bg-white rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition-all duration-400 group cursor-pointer">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/crispy.jpg" alt="Crispy Chicken"
+              class="w-full h-full object-cover transition-transform duration-500" />
+            <div
+              class="dish-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-medium">Knusprig & Saftig</span>
+            </div>
+            <div class="absolute top-3 right-3 bg-terracotta text-white text-xs px-2 py-1 rounded-full font-semibold">🔥
+              Hot</div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-xl font-bold text-charcoal mb-2">Crispy Chicken</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">4 frittierte Hähnchenbrustfilets mit Krautsalat, Pommes und
+              Tum – knusprig und unwiderstehlich.</p>
+          </div>
+        </div>
+
+        <!-- Shawarma -->
+        <div data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.2"
+          class="dish-card reveal bg-white rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)] transition-all duration-400 group cursor-pointer">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/chawarma.jpg" alt="Shawarma"
+              class="w-full h-full object-cover transition-transform duration-500" />
+            <div
+              class="dish-overlay absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-medium">Mediterrane Spezialität</span>
+            </div>
+            <div class="absolute top-3 right-3 bg-terracotta text-white text-xs px-2 py-1 rounded-full font-semibold">⭐
+              Beliebt</div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-xl font-bold text-charcoal mb-2">Shawarma</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Zart mariniertes Hähnchen vom Holzkohlegrill, gewickelt im
+              Fladenbrot – ein echter Klassiker.</p>
+          </div>
+        </div>
+
+        <!-- CTA Card -->
+        <div data-tilt data-tilt-max="10" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.3"
+          class="tilt-card reveal bg-gradient-to-br from-terracotta to-terracotta-dark rounded-2xl p-8 flex flex-col items-center justify-center text-center text-white shadow-md hover:shadow-[0_20px_40px_rgba(192,98,47,0.4)] transition-all duration-400 hover:-translate-y-1 cursor-pointer">
+          <div class="tilt-element text-5xl mb-4 drop-shadow-xl">🍽️</div>
+          <h3 class="tilt-element font-serif text-2xl font-bold mb-3 drop-shadow-md">Noch mehr entdecken</h3>
+          <p class="tilt-element text-white/80 text-sm mb-6 leading-relaxed">Unsere vollständige Speisekarte wartet auf
+            Sie – mit
+            vielen weiteren Köstlichkeiten.</p>
+          <a href="#menu"
+            class="bg-white text-terracotta font-semibold px-6 py-3 rounded-full transition-all hover:bg-sand hover:shadow-md">
+            Speisekarte ansehen →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== MENU PREVIEW ==================== -->
+  <section id="menu" class="py-20 lg:py-28 bg-white" x-data="{ tab: 'vorspeisen' }">
+    <div class="max-w-5xl mx-auto px-4">
+
+      <div class="text-center mb-12 reveal">
+        <span class="text-terracotta text-sm font-semibold uppercase tracking-widest">Unsere Karte</span>
+        <h2 class="font-serif text-4xl lg:text-5xl font-bold text-charcoal mt-3 mb-4">Speisekarte</h2>
+        <p class="text-gray-500 max-w-xl mx-auto">Alle Gerichte werden täglich frisch und mit hochwertigen Zutaten
+          zubereitet.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex flex-wrap justify-center gap-2 mb-10 reveal">
+        <button @click="tab='vorspeisen'"
+          :class="tab === 'vorspeisen' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">🫒
+          Vorspeisen</button>
+        <button @click="tab='salate'"
+          :class="tab === 'salate' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">🥗
+          Salate</button>
+        <button @click="tab='hauptgerichte'"
+          :class="tab === 'hauptgerichte' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">🍖
+          Hauptgerichte</button>
+        <button @click="tab='grillgerichte'"
+          :class="tab === 'grillgerichte' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">🔥
+          Grillgerichte</button>
+        <button @click="tab='vegetarisch_vegan'"
+          :class="tab === 'vegetarisch_vegan' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">🌱
+          Vegetarisch & Vegan</button>
+        <button @click="tab='beilagen'"
+          :class="tab === 'beilagen' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">🍚
+          Beilagen</button>
+        <button @click="tab='desserts'"
+          :class="tab === 'desserts' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">🍮
+          Desserts</button>
+        <button @click="tab='getraenke'"
+          :class="tab === 'getraenke' ? 'bg-terracotta text-white shadow-md' : 'bg-sand text-charcoal hover:bg-sand-dark'"
+          class="menu-tab px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200">☕
+          Getränke</button>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="max-w-3xl mx-auto reveal">
+
+        <!-- Vorspeisen -->
+        <div x-show="tab === 'vorspeisen'" x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V1 – Hummus <span class="text-xs text-olive">V</span></div>
+                <div class="text-sm text-gray-500">Dip aus Kichererbsen, Sesampaste, Olivenöl, Zitronensaft und Gewürzen
+                  mit Brot</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">5,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V2 – Mutabbal <span class="text-xs text-olive">Veg</span></div>
+                <div class="text-sm text-gray-500">Dip aus Aubergine, Tahin, Knoblauch, Salz, Zitronensaft und Olivenöl
+                  mit Brot</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">6,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V3 – Tum</div>
+                <div class="text-sm text-gray-500">Knoblauchsoße</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">3,00 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V4 – Ezme <span class="text-xs text-olive">Veg</span></div>
+                <div class="text-sm text-gray-500">Dip aus Tomaten, Spitzpaprika, Chilischoten, Knoblauch, Zwiebeln,
+                  Petersilie, Granatapfelsirup, Olivenöl und Tomatenmark mit Brot</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">6,00 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V5 – Vorspeisen Mix</div>
+                <div class="text-sm text-gray-500">Mix 3 Dips nach Wahl</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">9,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V6 – Kute <span class="text-xs text-olive">V</span></div>
+                <div class="text-sm text-gray-500">Bulgur, Tomaten, Zwiebeln, Knoblauch, Tomatenmark, Paprikamark und
+                  Gewürze</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V7 – Reis <span class="text-xs text-olive">V</span></div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">4,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V8 – Savar <span class="text-xs text-olive">V</span></div>
+                <div class="text-sm text-gray-500">Bulgur, Tomatenmark und Gemüse</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">4,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-start py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">V9 – Pommes <span class="text-xs text-olive">V</span></div>
+              </div>
+              <div class="text-right"><span class="block font-semibold text-terracotta whitespace-nowrap">Klein 3,50
+                  €</span><span class="block font-semibold text-terracotta whitespace-nowrap">Groß 5,50 €</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suppen -->
+        <div x-show="tab === 'salate'" x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <h3 class="font-serif text-xl font-bold text-charcoal mb-4 px-3 border-l-4 border-terracotta pl-4">Suppen</h3>
+          <div class="space-y-3 mb-8">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">S1 – Nisk <span class="text-xs text-olive">V</span></div>
+                <div class="text-sm text-gray-500">Linsensuppe</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">– €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">S2 – Tufti</div>
+                <div class="text-sm text-gray-500">Weizensuppe mit Kichererbsen, Zwiebeln, Kalbfleisch, Tomatenmark und
+                  Paprikamark</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">7,50 €</span>
+            </div>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-charcoal mb-4 px-3 border-l-4 border-terracotta pl-4">Salate</h3>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa1 – Fatusch</div>
+                <div class="text-sm text-gray-500">Aus Zwiebeln, Gurken, Tomaten, Feldsalat und frittiertem Brot</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">7,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa2 – Sivan <span class="text-xs text-olive">V</span></div>
+                <div class="text-sm text-gray-500">Aus Eisbergsalat, Tomaten, Gurken und Paprika</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">6,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa3 – Sivan mit Käse <span
+                    class="text-xs text-olive">Veg</span></div>
+                <div class="text-sm text-gray-500">Aus Eisbergsalat, Oliven, Tomaten, Gurken, Paprika und kurdischem
+                  Käse</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">7,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa4 – Sivan Hähnchen</div>
+                <div class="text-sm text-gray-500">Aus Eisbergsalat, Tomaten, Gurken, Paprika, Hähnchenfleisch und
+                  kurdischem Käse</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa5 – Krautsalat <span class="text-xs text-olive">Veg</span>
+                </div>
+                <div class="text-sm text-gray-500">Aus Weißkohl, Möhren und Mayonnaise</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">4,90 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa6 – Gemischter Salat <span
+                    class="text-xs text-olive">V</span></div>
+                <div class="text-sm text-gray-500">Aus Eisbergsalat, Tomaten, Gurken, Kraut &amp; Zwiebeln</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">6,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa7 – Gozer Salat <span class="text-xs text-olive">V</span>
+                </div>
+                <div class="text-sm text-gray-500">Karottensalat</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">4,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sa8 – Mira Salat <span class="text-xs text-olive">V</span>
+                </div>
+                <div class="text-sm text-gray-500">Aus roter Zwiebel, Tomaten, Koriander, Chili, Minze und Zitrone</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,50 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hauptgerichte: Shawarma -->
+        <div x-show="tab === 'hauptgerichte'" x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <p class="text-gray-500 text-sm italic mb-5 px-3">Über Holzkohlegrill mariniertes Hähnchen – traditionell und
+            vollmundig.</p>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sh1 – Klassik-Shawarma Pêçan</div>
+                <div class="text-sm text-gray-500">Wrap mit Hähnchen, Tum und Sauergurken</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">7,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sh2 – Kinder Klassik-Shawarma</div>
+                <div class="text-sm text-gray-500">Wrap mit Hähnchen, Tum und Sauergurken</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">4,00 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sh3 – Mira-Shawarma Pêçan</div>
+                <div class="text-sm text-gray-500">Wrap mit Hähnchen, Tum und gebratenem Gemüse</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sh4 – Shawarma Pêçan Teller</div>
+                <div class="text-sm text-gray-500">Wrap mit Hähnchen, Tum und Sauergurken, serviert mit Pommes, Reis
+                  oder Savar und Krautsalat</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">10,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sh5 – Mira-Shawarma Pêçan Teller</div>
+                <div class="text-sm text-gray-500">Wrap mit Hähnchen, Tum und gebratenem Gemüse, serviert mit Pommes,
+                  Reis oder Savar und Krautsalat</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">12,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sh6 – Shawarma Box</div>
+                <div class="text-sm text-gray-500">Mit Hähnchen und Salat, serviert mit Pommes, Reis oder Savar und Dip
+                  nach Wahl</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">9,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Sh7 – Mira-Shawarma Box</div>
+                <div class="text-sm text-gray-500">Mit Hähnchen und gebratenem Gemüse, serviert mit Pommes, Reis oder
+                  Savar und Dip nach Wahl</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">11,50 €</span>
+            </div>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-charcoal mt-8 mb-4 px-3 border-l-4 border-terracotta pl-4">Mira
+            Hausgerichte</h3>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">M1 – Mira Salat</div>
+                <div class="text-sm text-gray-500">Mit roter Zwiebel, Tomaten, Koriander, Chili, Minze und Zitrone</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">M2 – Mira-Shawarma Pêçan</div>
+                <div class="text-sm text-gray-500">Wrap mit Hähnchen, Tum und gebratenem Gemüse</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">M3 – Kadeh</div>
+                <div class="text-sm text-gray-500">Wrap mit Hähnchen, Tum und gebratenem Gemüse, serviert mit Pommes,
+                  Reis oder Savar und Krautsalat</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">12,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">M4 – Mira-Shawarma Box</div>
+                <div class="text-sm text-gray-500">Mit Hähnchen und gebratenem Gemüse, serviert mit Pommes, Reis oder
+                  Savar und Dip nach Wahl</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">11,50 €</span>
+            </div>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-charcoal mt-8 mb-4 px-3 border-l-4 border-terracotta pl-4">Crispy
+            Chicken</h3>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">C1 – Crispy Teller</div>
+                <div class="text-sm text-gray-500">4 frittierte Hähnchenbrustfilets, Krautsalat, Pommes und Tum</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">11,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">C2 – Crispy Box</div>
+                <div class="text-sm text-gray-500">4 frittierte Hähnchenbrustfilets, Pommes und Dip nach Wahl</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">9,50 €</span>
+            </div>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-charcoal mt-8 mb-4 px-3 border-l-4 border-terracotta pl-4">
+            Kaufmannstaschen</h3>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-start py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Ka1 – Klassik</div>
+                <div class="text-sm text-gray-500">Mit Hähnchenbrustfilet, Sauergurken, Eisbergsalat und Mayonnaise
+                </div>
+              </div>
+              <div class="text-right ml-6"><span class="block font-semibold text-terracotta whitespace-nowrap">4 Stück ·
+                  13,50 €</span><span class="block font-semibold text-terracotta whitespace-nowrap">6 Stück · 16,50
+                  €</span></div>
+            </div>
+            <div
+              class="flex justify-between items-start py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">Ka2 – Kartoffel <span class="text-xs text-olive">Veg</span>
+                </div>
+                <div class="text-sm text-gray-500">Mit gebratenen Kartoffeln, Zwiebeln und Käse</div>
+              </div>
+              <div class="text-right ml-6"><span class="block font-semibold text-terracotta whitespace-nowrap">4 Stück ·
+                  12,50 €</span><span class="block font-semibold text-terracotta whitespace-nowrap">6 Stück · 15,50
+                  €</span></div>
+            </div>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-charcoal mt-8 mb-4 px-3 border-l-4 border-terracotta pl-4">
+            Mira-Shawarma Teller
+          </h3>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">K1 – Klassik Teller</div>
+                <div class="text-sm text-gray-500">4 frittierte Teigtaschen mit Kalbshackfleisch, Zwiebel und
+                  Petersilienfüllung, serviert mit Pommes</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">12,50 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Falafel und Co -->
+        <div x-show="tab === 'grillgerichte'" x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <h3 class="font-serif text-xl font-bold text-charcoal mb-4 px-3 border-l-4 border-terracotta pl-4">Falafel und
+            Co</h3>
+          <div class="space-y-3 mb-8">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-semibold text-charcoal">F1 – Falafel Pêçan
+                    (Wrap)</span><span class="bg-olive/10 text-olive text-xs px-2 py-0.5 rounded-full">🌱 V</span></div>
+                <div class="text-sm text-gray-500">Mit Falafel, Sauergurken, verschiedenem Gemüse und Hummus</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">6,00 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-semibold text-charcoal">F2 – Falafel
+                    Teller</span><span class="bg-olive/10 text-olive text-xs px-2 py-0.5 rounded-full">🌱 V</span></div>
+                <div class="text-sm text-gray-500">Falafel, Hummus und verschiedenes Gemüse</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">10,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-semibold text-charcoal">F3 – Ful</span><span
+                    class="bg-olive/10 text-olive text-xs px-2 py-0.5 rounded-full">🌱 V</span></div>
+                <div class="text-sm text-gray-500">Fava-Bohnen Eintopf mit Knoblauch, Petersilie, Tomaten und Olivenöl
+                </div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">7,90 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-semibold text-charcoal">F4 – Joghurt
+                    Ful</span><span class="bg-olive/10 text-olive text-xs px-2 py-0.5 rounded-full">🌱 V</span></div>
+                <div class="text-sm text-gray-500">Fava-Bohnen Eintopf mit Knoblauch, Petersilie, Tomaten, Olivenöl,
+                  Joghurt und Tahini</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="flex items-center gap-2"><span class="font-semibold text-charcoal">F5 – Fatteh</span><span
+                    class="bg-olive/10 text-olive text-xs px-2 py-0.5 rounded-full">🌱 Veg</span></div>
+                <div class="text-sm text-gray-500">Gericht aus frittiertem Fladenbrot, Kichererbsen, Joghurt und Tahini
+                </div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">8,90 €</span>
+            </div>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-charcoal mb-4 px-3 border-l-4 border-terracotta pl-4">Holzgrill
+          </h3>
+          <div class="space-y-3 mb-8">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">H1 – Kebabé Kurdî</div>
+                <div class="text-sm text-gray-500">Gegrillte Lammhackfleischspieße</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">15,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">H2 – Kebabé Amede</div>
+                <div class="text-sm text-gray-500">Gegrillte Kalbshackfleischspieße</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">15,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">H3 – Pêrçe Mirîşk</div>
+                <div class="text-sm text-gray-500">Gegrillte Hähnchenspieße</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">14,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">H4 – Bask</div>
+                <div class="text-sm text-gray-500">Gegrillte Hähnchenflügel</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">14,00 €</span>
+            </div>
+          </div>
+          <h3 class="font-serif text-xl font-bold text-charcoal mb-4 px-3 border-l-4 border-terracotta pl-4">Pêçan
+            (Wrap)</h3>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">P1 – Kebabé Banî</div>
+                <div class="text-sm text-gray-500">Mit gebratenem Gemüse und frischem Salat</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">10,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">P2 – Kebabé Kurdî</div>
+                <div class="text-sm text-gray-500">Mit gebratenem Gemüse, frischem Salat und Käse</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">11,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">P3 – Kebabé Amede</div>
+                <div class="text-sm text-gray-500">Mit gebratenem Gemüse, frischem Salat, Käse und scharf</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">11,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <div>
+                <div class="font-semibold text-charcoal">P4 – Pêrçe Mirîşk</div>
+                <div class="text-sm text-gray-500">Mit gebratenem Gemüse und frischem Salat</div>
+              </div><span class="font-semibold text-terracotta ml-6 whitespace-nowrap">10,50 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Getränke -->
+        <div x-show="tab === 'getraenke'" x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="bg-sand/50 rounded-xl p-4 text-sm text-gray-600 mb-4"><span class="font-medium">0,2 L → 2,50
+              €</span> &nbsp;|&nbsp; <span class="font-medium">0,4 L → 3,50 €</span></div>
+          <div class="space-y-3">
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Tee</span><span class="font-semibold text-terracotta">ab 2,50
+                €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Apfelschorle</span><span
+                class="font-semibold text-terracotta">ab 2,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Cola</span><span class="font-semibold text-terracotta">ab 2,50
+                €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Cola Light</span><span class="font-semibold text-terracotta">ab
+                2,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Cola Zero</span><span class="font-semibold text-terracotta">ab
+                2,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Fanta</span><span class="font-semibold text-terracotta">ab 2,50
+                €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Sprite</span><span class="font-semibold text-terracotta">ab 2,50
+                €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Dao (Ayran)</span><span class="font-semibold text-terracotta">ab
+                2,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Wasser ohne Kohlensäure</span><span
+                class="font-semibold text-terracotta">ab 2,50 €</span>
+            </div>
+            <div
+              class="flex justify-between items-center py-4 border-b border-sand-dark hover:bg-sand/50 px-3 rounded-lg transition-colors">
+              <span class="font-semibold text-charcoal">Wasser mit Kohlensäure</span><span
+                class="font-semibold text-terracotta">ab 2,50 €</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="text-center mt-10 reveal">
+        <p class="text-gray-500 text-sm mb-4">Haben Sie Fragen zu Allergenen oder besonderen Diätwünschen?</p>
+        <a href="tel:+491636473331"
+          class="inline-flex items-center gap-2 bg-terracotta text-white font-semibold px-7 py-3.5 rounded-full hover:bg-terracotta-dark transition-all hover:shadow-lg">
+          📞 Jetzt anrufen &amp; informieren
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== WHY US ==================== -->
+  <section id="why-us" class="py-20 lg:py-28 bg-gradient-to-br from-charcoal to-[#1a1208] text-white">
+    <div class="max-w-6xl mx-auto px-4">
+
+      <div class="text-center mb-14 reveal">
+        <span class="text-terracotta-light text-sm font-semibold uppercase tracking-widest">Warum Mira?</span>
+        <h2 class="font-serif text-4xl lg:text-5xl font-bold mt-3 mb-4">
+          Was unsere Gäste <span class="text-terracotta-light italic">lieben</span>
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div data-tilt data-tilt-max="10" data-tilt-speed="300" data-tilt-glare="true" data-tilt-max-glare="0.15"
+          class="tilt-card reveal text-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] group cursor-default">
+          <div
+            class="tilt-element text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 drop-shadow-xl">🌿
+          </div>
+          <h3 class="tilt-element font-serif text-xl font-bold mb-3 text-white">Frische Zutaten</h3>
+          <p class="tilt-element text-white/60 text-sm leading-relaxed">Täglich frisch eingekauft und zubereitet – ohne
+            Kompromisse
+            bei Qualität und Geschmack.</p>
+        </div>
+        <div data-tilt data-tilt-max="10" data-tilt-speed="300" data-tilt-glare="true" data-tilt-max-glare="0.15"
+          class="tilt-card reveal text-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] group cursor-default">
+          <div
+            class="tilt-element text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 drop-shadow-xl">🏺
+          </div>
+          <h3 class="tilt-element font-serif text-xl font-bold mb-3 text-white">Authentisch mediterran</h3>
+          <p class="tilt-element text-white/60 text-sm leading-relaxed">Traditionsrezepte aus der Levante,
+            syrisch-arabischer Küche
+            und dem gesamten Mittelmeerraum.</p>
+        </div>
+        <div data-tilt data-tilt-max="10" data-tilt-speed="300" data-tilt-glare="true" data-tilt-max-glare="0.15"
+          class="tilt-card reveal text-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] group cursor-default">
+          <div
+            class="tilt-element text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 drop-shadow-xl">🥗
+          </div>
+          <h3 class="tilt-element font-serif text-xl font-bold mb-3 text-white">Vegetarische Optionen</h3>
+          <p class="tilt-element text-white/60 text-sm leading-relaxed">Reichhaltige Auswahl an vegetarischen und
+            veganen Gerichten –
+            für jeden Geschmack etwas dabei.</p>
+        </div>
+        <div data-tilt data-tilt-max="10" data-tilt-speed="300" data-tilt-glare="true" data-tilt-max-glare="0.15"
+          class="tilt-card reveal text-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] group cursor-default">
+          <div
+            class="tilt-element text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 drop-shadow-xl">📍
+          </div>
+          <h3 class="tilt-element font-serif text-xl font-bold mb-3 text-white">Zentrale Lage</h3>
+          <p class="tilt-element text-white/60 text-sm leading-relaxed">Direkt in der Innenstadt – bequem erreichbar mit
+            öffentlichen
+            Verkehrsmitteln und Parkplätzen in der Nähe.</p>
+        </div>
+      </div>
+
+      <!-- Testimonial Stripe -->
+      <div class="mt-14 reveal bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+        <div class="flex justify-center mb-4 text-2xl">⭐⭐⭐⭐⭐</div>
+        <blockquote class="font-serif text-xl italic text-white/90 max-w-2xl mx-auto mb-4">
+          „Das beste Shawarma in Merseburg! Die Atmosphäre ist einladend, das Personal herzlich und das Essen
+          schmeckt wie bei einer syrischen Großmutter."
+        </blockquote>
+        <div class="text-white/50 text-sm font-medium">— Karolin M., Google Bewertung</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==================== OPENING HOURS ==================== -->
+  <section id="hours" class="py-20 lg:py-28 bg-sand">
+    <div class="max-w-4xl mx-auto px-4">
+
+      <div class="text-center mb-14 reveal">
+        <span class="text-terracotta text-sm font-semibold uppercase tracking-widest">Zeiten</span>
+        <h2 class="font-serif text-4xl lg:text-5xl font-bold text-charcoal mt-3 mb-4">Öffnungszeiten</h2>
+        <p class="text-gray-500">Wir freuen uns auf Ihren Besuch – kommen Sie einfach vorbei!</p>
+      </div>
+
+      <div class="reveal bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div class="bg-gradient-to-r from-terracotta to-terracotta-dark text-white text-center py-6 px-4">
+          <div class="text-4xl mb-2">🕐</div>
+          <h3 class="font-serif text-2xl font-bold">Wöchentliche Öffnungszeiten</h3>
+        </div>
+
+        <div class="divide-y divide-sand-dark">
+          <div class="flex justify-between items-center px-6 sm:px-10 py-4 hover:bg-sand/50 transition-colors">
+            <span class="font-medium text-charcoal">Montag</span>
+            <span class="text-gray-500 text-sm">11:00 – 22:00 Uhr</span>
+          </div>
+          <div class="flex justify-between items-center px-6 sm:px-10 py-4 hover:bg-sand/50 transition-colors">
+            <span class="font-medium text-charcoal">Dienstag</span>
+            <span class="text-gray-500 text-sm">11:00 – 22:00 Uhr</span>
+          </div>
+          <div class="flex justify-between items-center px-6 sm:px-10 py-4 hover:bg-sand/50 transition-colors">
+            <span class="font-medium text-charcoal">Mittwoch</span>
+            <span class="text-gray-500 text-sm">11:00 – 22:00 Uhr</span>
+          </div>
+          <div class="flex justify-between items-center px-6 sm:px-10 py-4 hover:bg-sand/50 transition-colors">
+            <span class="font-medium text-charcoal">Donnerstag</span>
+            <span class="text-gray-500 text-sm">11:00 – 22:00 Uhr</span>
+          </div>
+          <div class="flex justify-between items-center px-6 sm:px-10 py-4 hover:bg-sand/50 transition-colors">
+            <span class="font-medium text-charcoal">Freitag</span>
+            <span class="text-gray-600 font-semibold text-sm">11:00 – 23:00 Uhr</span>
+          </div>
+          <div
+            class="flex justify-between items-center px-6 sm:px-10 py-4 hover:bg-sand/50 transition-colors bg-sand/30">
+            <span class="font-medium text-charcoal">Samstag</span>
+            <span class="text-gray-600 font-semibold text-sm">12:00 – 23:00 Uhr</span>
+          </div>
+          <div
+            class="flex justify-between items-center px-6 sm:px-10 py-4 hover:bg-sand/50 transition-colors bg-sand/30">
+            <span class="font-medium text-charcoal">Sonntag</span>
+            <span class="text-gray-600 font-semibold text-sm">12:00 – 22:00 Uhr</span>
+          </div>
+        </div>
+
+        <div class="px-8 py-6 bg-sand/40 text-center">
+          <p class="text-gray-500 text-sm mb-4">Für Gruppenreservierungen oder Events – rufen Sie uns einfach an!</p>
+          <a href="tel:+491636473331"
+            class="inline-flex items-center gap-2 bg-terracotta text-white font-semibold px-7 py-3 rounded-full hover:bg-terracotta-dark transition-all hover:shadow-lg">
+            📞 Tisch reservieren
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==================== CONTACT & MAP ==================== -->
+  <section id="contact" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+
+      <div class="text-center mb-14 reveal">
+        <span class="text-terracotta text-sm font-semibold uppercase tracking-widest">Besuchen Sie uns</span>
+        <h2 class="font-serif text-4xl lg:text-5xl font-bold text-charcoal mt-3 mb-4">Kontakt & Anfahrt</h2>
+        <p class="text-gray-500 max-w-xl mx-auto">Wir sind leicht zu finden – mitten in Merseburg.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 items-start">
+
+        <!-- Contact Details -->
+        <div class="reveal space-y-6">
+
+          <div class="bg-sand rounded-2xl p-6 flex items-start gap-4 hover:shadow-md transition-shadow">
+            <div class="bg-terracotta/10 text-terracotta rounded-xl p-3 text-2xl flex-shrink-0">📍</div>
+            <div>
+              <h3 class="font-semibold text-charcoal mb-1">Adresse</h3>
+              <p class="text-gray-600">Klobikauer Str. 64<br />06217 Merseburg<br />Deutschland</p>
+              <a href="https://www.google.com/maps/search/Klobikauer+Str.+64,+06217+Merseburg" target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-1.5 text-terracotta text-sm font-medium mt-2 hover:underline">
+                🗺️ Route öffnen →
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-sand rounded-2xl p-6 flex items-start gap-4 hover:shadow-md transition-shadow">
+            <div class="bg-terracotta/10 text-terracotta rounded-xl p-3 text-2xl flex-shrink-0">📞</div>
+            <div>
+              <h3 class="font-semibold text-charcoal mb-1">Telefon</h3>
+              <a href="tel:+491636473331" class="text-terracotta text-xl font-bold hover:underline">+49 163 647 3331</a>
+              <p class="text-gray-500 text-sm mt-1">Rufen Sie uns an – für Reservierungen und Bestellungen</p>
+            </div>
+          </div>
+
+          <div class="bg-sand rounded-2xl p-6 flex items-start gap-4 hover:shadow-md transition-shadow">
+            <div class="bg-terracotta/10 text-terracotta rounded-xl p-3 text-2xl flex-shrink-0">🕐</div>
+            <div>
+              <h3 class="font-semibold text-charcoal mb-2">Öffnungszeiten</h3>
+              <div class="text-gray-600 text-sm space-y-1">
+                <div class="flex justify-between gap-4"><span>Mo – Do</span><span>11:00 – 22:00 Uhr</span></div>
+                <div class="flex justify-between gap-4"><span>Fr</span><span>11:00 – 23:00 Uhr</span></div>
+                <div class="flex justify-between gap-4"><span>Sa</span><span>12:00 – 23:00 Uhr</span></div>
+                <div class="flex justify-between gap-4"><span>So</span><span>12:00 – 22:00 Uhr</span></div>
+              </div>
+            </div>
+          </div>
+
+          <a href="tel:+491636473331"
+            class="w-full flex items-center justify-center gap-3 bg-terracotta hover:bg-terracotta-dark text-white font-bold px-8 py-4 rounded-2xl transition-all hover:shadow-xl hover:-translate-y-0.5 text-lg">
+            📞 Jetzt anrufen & reservieren
+          </a>
+
+        </div>
+
+        <!-- Map -->
+        <div
+          class="reveal rounded-2xl overflow-hidden shadow-xl border border-sand-dark h-[420px] lg:h-full min-h-[380px]">
+          <iframe title="Mira Mediterrane Küche – Standort in Merseburg"
+            src="https://www.google.com/maps?q=Klobikauer+Str.+64,+06217+Merseburg&output=embed" width="100%"
+            height="100%" style="border:0; min-height: 380px;" allowfullscreen loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-charcoal text-white pt-14 pb-6">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-10">
+
+        <!-- Brand -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-3xl">🫒</span>
+            <div>
+              <div class="font-serif font-bold text-xl">Mira</div>
+              <div class="text-xs text-white/50 tracking-widest uppercase">Mediterrane Küche</div>
+            </div>
+          </div>
+          <p class="text-white/60 text-sm leading-relaxed max-w-xs">
+            Authentische mediterrane und syrisch-arabische Küche in Merseburg.
+            Frisch, traditionell, herzlich.
+          </p>
+        </div>
+
+        <!-- Address + Phone -->
+        <div>
+          <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Kontakt</h4>
+          <ul class="text-white/60 text-sm space-y-2">
+            <li class="flex items-start gap-2"><span>📍</span><span>Klobikauer Str. 64<br />06217 Merseburg</span>
+            </li>
+            <li class="flex items-center gap-2"><span>📞</span><a href="tel:+491636473331"
+                class="hover:text-terracotta-light transition-colors">+49 163 647 3331</a></li>
+          </ul>
+        </div>
+
+        <!-- Links + CTA -->
+        <div>
+          <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Navigation</h4>
+          <ul class="text-white/60 text-sm space-y-2 mb-6">
+            <li><a href="#about" class="hover:text-terracotta-light transition-colors">Über uns</a></li>
+            <li><a href="#dishes" class="hover:text-terracotta-light transition-colors">Gerichte</a></li>
+            <li><a href="#menu" class="hover:text-terracotta-light transition-colors">Speisekarte</a></li>
+            <li><a href="#contact" class="hover:text-terracotta-light transition-colors">Kontakt & Anfahrt</a></li>
+          </ul>
+          <a href="tel:+491636473331"
+            class="inline-flex items-center gap-2 bg-terracotta text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-terracotta-dark transition-colors">
+            📞 Reservierung
+          </a>
+        </div>
+
+      </div>
+
+      <div
+        class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/40 text-xs">
+        <p>© 2025 Mira Mediterrane Küche · Alle Rechte vorbehalten</p>
+        <div class="flex gap-5">
+          <a href="#impressum" class="hover:text-white/70 transition-colors">Impressum</a>
+          <a href="#datenschutz" class="hover:text-white/70 transition-colors">Datenschutzerklärung</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ==================== Scroll Reveal Script ==================== -->
+  <script>
+    // Intersection Observer for scroll-in animations
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Add staggered delay for grid children
+    document.querySelectorAll('.grid .reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 4) * 0.1}s`;
+    });
+  </script>
+
+</body>
+
+</html>
