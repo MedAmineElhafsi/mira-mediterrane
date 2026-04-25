@@ -101,7 +101,7 @@ export async function POST(req: Request) {
       lineItems.push({
         price_data: {
           currency: "eur",
-          product_data: { name: "Liefergebühr" },
+          product_data: { name: "Liefergebühr", description: "Standard Lieferkosten" },
           unit_amount: deliveryFeeCents,
         },
         quantity: 1,
@@ -112,7 +112,7 @@ export async function POST(req: Request) {
       lineItems.push({
         price_data: {
           currency: "eur",
-          product_data: { name: "Trinkgeld für das Team" },
+          product_data: { name: "Trinkgeld für das Team", description: "Vielen Dank!" },
           unit_amount: tipCents,
         },
         quantity: 1,
