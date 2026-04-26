@@ -48,3 +48,5 @@ next-env.d.ts
 # local dev databases
 *.db
 *.db-journal
+
+.vercel
